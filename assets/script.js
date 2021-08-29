@@ -4,35 +4,10 @@ var endingElement = document.querySelector("#end");
 var questionContainerEl = document.querySelector("#question-container");
 var questionEl = document.querySelector("#question");
 var answerEl = document.querySelector("#answer-button");
+var currentQuestionIndex = 0;
+var currentAnswerIndex = 0;
 
-var timeLeft = 60;
-var currentIndex = 0;
-
-var beginTimer = function () {
-    var interval = setInterval(function() {
-        timeLeft--;
-        timerElement.textContent = timeLeft;
-        if (timeLeft <= 0) {
-            timeLeft = 0;
-            clearInterval(interval);
-            endQuiz();
-        }
-    }, 1000);
-}
-
-
-function startQuiz() {
-    startEl.classList.add("jb")
-    questionContainerEl.classList.remove("jb")
-
-}
-
-function endQuiz() {
-    startEl.classList.remove("start-btn");
-    endingElement.classList.add("start-btn");
-}
-
-
+var timeLeft = 10;
 
 var questions = [
     {
@@ -73,6 +48,50 @@ var questions = [
     }
 
 ]
+
+var beginTimer = function () {
+    var interval = setInterval(function() {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            timeLeft = 0;
+            clearInterval(interval);
+            endQuiz();
+        }
+    }, 1000);
+}
+
+var showQuestion = function () {
+    var pickedQuestion = questions[currentQuestionIndex].question;
+    questionEl.innerHTML="";
+    var populateEl = document.createElement("h2");
+    populateEl.textContent = pickedQuestion;
+    questionEl.appendChild(populateEl);
+}
+
+var showAnswer = function () {
+    var pickedAnswer = question[currentAnswerIndex].answers;
+    answerEl.innerHTML="";
+    var populateAnswer = document.createElement("btn");
+    populateAnswer.textContent = pickedAnswer;
+    answerEl.appendChild(populateAnswer);
+}
+
+function startQuiz() {
+    startEl.classList.add("jb")
+    questionContainerEl.classList.remove("jb")
+    showQuestion();
+    showAnswer();
+}
+
+function endQuiz() {
+    startEl.classList.remove("start-btn");
+    endingElement.classList.add("start-btn");
+    endingElement.style.display = "block";
+}
+
+
+
 startEl.addEventListener('click', function() {
     beginTimer();
     startQuiz();
